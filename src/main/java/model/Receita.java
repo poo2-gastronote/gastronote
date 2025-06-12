@@ -1,8 +1,6 @@
 package model;
-
-//Netbeans IDE23
-//Isadora Costa Baía - RA2614685
-
+import exceptions.NivelDifException;
+import exceptions.NomeException;
 import java.util.ArrayList;
 
 public abstract class Receita{
@@ -10,6 +8,7 @@ public abstract class Receita{
     private double tempPreparo;
     private int nivelDific;
     private int valorKcal;
+    private int porcoes;
     private ArrayList <Ingrediente> ingredientes;
     
     public Receita() {
@@ -17,19 +16,10 @@ public abstract class Receita{
         this.tempPreparo = 0.0;
         this.nivelDific = 1; 
         this.valorKcal = 0;
+        this.porcoes = 0;
         this.ingredientes = new ArrayList<>(); 
     }
 
-    //polimorfismo por sobrecarga 
-    public Receita(String nome, double tempPreparo, int nivelDific, int valorKcal, ArrayList<Ingrediente> ingredientes) {
-        this.nome = nome;
-        this.tempPreparo = tempPreparo;
-        this.nivelDific = nivelDific;
-        this.valorKcal = valorKcal;
-        this.ingredientes = ingredientes;
-    }
-
-    //getters
     public ArrayList<Ingrediente> getIngredientes() {
         return this.ingredientes;
     }
@@ -49,8 +39,11 @@ public abstract class Receita{
     public int getValorKcal(){
         return this.valorKcal;
     }
-
-    //setters
+    
+    public int getPorcoes() {
+        return this.porcoes;
+    }
+ 
     public void setIngredientes(ArrayList<Ingrediente> ingredientes) {
         this.ingredientes = ingredientes;
     }
@@ -75,5 +68,9 @@ public abstract class Receita{
 
     public void setValorKcal(int valorKcal){
         this.valorKcal = valorKcal;
+    }
+    
+    public void setPorcoes(int porcoes) {
+        this.porcoes = porcoes;
     }
 }

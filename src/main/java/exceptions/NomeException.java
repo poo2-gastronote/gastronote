@@ -1,5 +1,5 @@
-//Netbeans IDE23
-//Isadora Costa Baía - RA2614685
+package exceptions;
+
 import javax.swing.JOptionPane;
 
 public class NomeException extends Exception {

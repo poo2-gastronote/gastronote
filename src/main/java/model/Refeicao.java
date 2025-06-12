@@ -1,28 +1,22 @@
 package model;
 
-//Netbeans IDE23
-//Isadora Costa Baía - RA2614685
-
 public class Refeicao extends Receita {
-    private int porcoes;
-    private int temAcomp;
-    
-    //getters
-    public int getPorcoes() {
-        return this.porcoes;
+    private String acompanhamento;
+    private String bebida;
+
+    public String getBebida() {
+        return bebida;
     }
 
-    public int getTemAcomp() {
-        return this.temAcomp;
+    public void setBebida(String bebida) {
+        this.bebida = bebida;
     }
 
-    //setters
-    public void setPorcoes(int porcoes) {
-        this.porcoes = porcoes;
+    public String getAcompanhamento() {
+        return acompanhamento;
     }
 
-    public void setTemAcomp(int temAcomp) {
-        this.temAcomp = temAcomp;
+    public void setAcompanhamento(String acompanhamento) {
+        this.acompanhamento = acompanhamento;
     }
-
 }

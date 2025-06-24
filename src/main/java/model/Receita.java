@@ -10,6 +10,7 @@ public abstract class Receita{
     private int valorKcal;
     private int porcoes;
     private ArrayList <Ingrediente> ingredientes;
+    private int id;
     
     public Receita() {
         this.nome = "";
@@ -44,6 +45,10 @@ public abstract class Receita{
         return this.porcoes;
     }
  
+    public int getId() {
+        return this.id;
+    }
+     
     public void setIngredientes(ArrayList<Ingrediente> ingredientes) {
         this.ingredientes = ingredientes;
     }
@@ -72,5 +77,9 @@ public abstract class Receita{
     
     public void setPorcoes(int porcoes) {
         this.porcoes = porcoes;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
     }
 }

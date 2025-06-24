@@ -8,6 +8,8 @@ import model.Refeicao;
 import javax.swing.JOptionPane;
 
 public class FormRefeicao extends javax.swing.JFrame {
+    private Refeicao refeicao;
+    private Ingrediente ingrediente;
     private static FormRefeicao formRefeicao;
       
     private FormRefeicao() {
@@ -293,14 +295,20 @@ public class FormRefeicao extends javax.swing.JFrame {
         refeicao.setAcompanhamento(txfieldAcomp.getText());
         refeicao.setBebida(txfieldBebida.getText());
 
-        FormIngrediente formIngrediente = FormIngrediente.getCadIngrediente();
-        formIngrediente.setReceitaAtual(refeicao);  
-
-        FormIngrediente.getCadIngrediente().setVisible(true);
-          
         RefeicaoController ct = new RefeicaoController();
-        ct.cadastrar(refeicao);
-
+        int id = ct.cadastrar(refeicao);
+        
+        if (id <= 0){
+            JOptionPane.showMessageDialog(this, "Erro ao cadastrar refeição no Banco de Dados", "ERRO", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        refeicao.setId(id);
+        
+        FormIngrediente formIngrediente = FormIngrediente.getFormIngrediente();
+        formIngrediente.setReceitaAtual(refeicao);  
+        FormIngrediente.getFormIngrediente().setVisible(true);
+          
         JOptionPane.showMessageDialog(this, "Refeicao cadastrada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         limpar();
         this.dispose();

@@ -1,26 +1,30 @@
 package view;
 
+import controller.ReceitaController;
+import exceptions.NivelDifException;
+import exceptions.NomeException;
 import model.Ingrediente;
 import model.Receita;
-import java.util.ArrayList;
+import model.Lanche;
+import model.Refeicao;
+import model.Sobremesa;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class FormConsultar extends javax.swing.JFrame {
     private static FormConsultar formConsulta;
-    private BdReceitas gerReceitas;
+    private ReceitaController rc = new ReceitaController();
     private DefaultListModel<String> listaModelo;
 
     private FormConsultar() {
         initComponents();
-        gerReceitas = BdReceitas.getBdReceitas();
         listaModelo = new DefaultListModel<>();
         jListReceitas.setModel(listaModelo);
         carregarListaReceitas();
     }
 
-    //método Singleton
     public static FormConsultar getFormConsulta() {
         if (formConsulta == null || !formConsulta.isDisplayable()) {
             formConsulta = new FormConsultar();
@@ -46,6 +50,8 @@ public class FormConsultar extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTableReceita = new javax.swing.JTable();
         btSair = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        comboboxTipo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(0, 153, 153));
@@ -91,49 +97,67 @@ public class FormConsultar extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Qual tipo de receita deseja consultar?");
+
+        comboboxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Lanche", "Refeição", "Sobremesa" }));
+        comboboxTipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboboxTipoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(98, 98, 98)
+                .addComponent(labelConsulta)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
+                        .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btSair)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btConsultar))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btConsultar)
+                                .addGap(18, 18, 18)
+                                .addComponent(btSair))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel1)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(comboboxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(labelDesejaCons)
-                                .addComponent(txtfieldDesejaCons, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-                                .addComponent(jScrollPane1))))
+                                .addComponent(txtfieldDesejaCons, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(103, 103, 103)
-                        .addComponent(labelConsulta))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
+                        .addGap(16, 16, 16)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(28, 28, 28)
                 .addComponent(labelConsulta)
+                .addGap(15, 15, 15)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(comboboxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(labelDesejaCons)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtfieldDesejaCons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btConsultar)
                     .addComponent(btSair))
-                .addGap(18, 18, 18)
+                .addGap(27, 27, 27)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         pack();
@@ -150,9 +174,13 @@ public class FormConsultar extends javax.swing.JFrame {
     private void btSairActionPerformed(java.awt.event.ActionEvent evt) {                                       
         sair();
     }                                      
+
+    private void comboboxTipoActionPerformed(java.awt.event.ActionEvent evt) {                                             
+        // TODO add your handling code here:
+    }                                            
     
     private void carregarListaReceitas() {
-        ArrayList<String> nomesReceitas = gerReceitas.listarNomesReceitas();
+        List<String> nomesReceitas = rc.listarNomesReceitas();
         listaModelo.clear();
 
         if (nomesReceitas.isEmpty()) {
@@ -171,8 +199,15 @@ public class FormConsultar extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Digite um nome para a consulta!", "Erro", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-        Receita receitaEncontrada = gerReceitas.encontrarReceita(nomeConsulta);
+        
+        Receita receitaEncontrada = null;
+        
+        try {
+            receitaEncontrada = new ReceitaController().buscarReceitaPorNome(nomeConsulta);
+        } catch (NomeException | NivelDifException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro na busca da receita: " + e.getMessage());
+        }
 
         if (receitaEncontrada != null) {
             exibirDetalhesNaTabela(receitaEncontrada);
@@ -189,7 +224,19 @@ public class FormConsultar extends javax.swing.JFrame {
         modelo.addRow(new Object[]{"Tempo de Preparo", receita.getTempPreparo() + " minutos"});
         modelo.addRow(new Object[]{"Nível de Dificuldade", receita.getNivelDific()});
         modelo.addRow(new Object[]{"Calorias", receita.getValorKcal()});
+        modelo.addRow(new Object[]{"Porções", receita.getPorcoes()});
 
+        if (receita instanceof Lanche l) {
+            modelo.addRow(new Object[]{"Tipo de Lanche", l.getTipoLanche()});
+            modelo.addRow(new Object[]{"Temperatura", l.getTemperatura()});
+        } else if (receita instanceof Refeicao r) {
+            modelo.addRow(new Object[]{"Acompanhamento", r.getAcompanhamento()});
+            modelo.addRow(new Object[]{"Bebida", r.getBebida()});
+        } else if (receita instanceof Sobremesa s) {
+            modelo.addRow(new Object[]{"Categoria", s.getCategoria()});
+            modelo.addRow(new Object[]{"Nível de Doçura", s.getNivelDoce()});
+        }
+        
         if (!receita.getIngredientes().isEmpty()) {
             for (Ingrediente ing : receita.getIngredientes()) {
                 modelo.addRow(new Object[]{"Ingrediente", ing.getNome() + ": " + ing.getQuantidade() + " " + ing.getUnidMedida()});
@@ -248,6 +295,8 @@ public class FormConsultar extends javax.swing.JFrame {
     // Variables declaration - do not modify                     
     private javax.swing.JButton btConsultar;
     private javax.swing.JButton btSair;
+    private javax.swing.JComboBox<String> comboboxTipo;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JList<String> jListReceitas;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;

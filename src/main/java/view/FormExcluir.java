@@ -1,17 +1,17 @@
 package view;
 
-import java.util.ArrayList;
+import controller.ReceitaController;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 public class FormExcluir extends javax.swing.JFrame {
     private static FormExcluir formExcluir;
-    private BdReceitas gerReceitas;
+    private ReceitaController rc = new ReceitaController();
     private DefaultListModel<String> listaModelo;
 
     private FormExcluir() {
         initComponents();
-        gerReceitas = BdReceitas.getBdReceitas();
         listaModelo = new DefaultListModel<>();
         listReceitasCad.setModel(listaModelo);
         carregarListaReceitas();
@@ -133,7 +133,7 @@ public class FormExcluir extends javax.swing.JFrame {
     }                                      
 
     private void carregarListaReceitas() {
-        ArrayList<String> nomesReceitas = gerReceitas.listarNomesReceitas();
+        List<String> nomesReceitas = rc.listarNomesReceitas();
         listaModelo.clear();
 
         if (nomesReceitas.isEmpty()) {
@@ -153,9 +153,16 @@ public class FormExcluir extends javax.swing.JFrame {
             return;
         }
 
-        boolean removido = BdReceitas.getBdReceitas().removerReceita(nomeExcluir); 
+        int confirmacao = JOptionPane.showConfirmDialog(this,
+            "Tem certeza que deseja excluir a receita \"" + nomeExcluir + "\"?",
+            "Confirmação", JOptionPane.YES_NO_OPTION);
 
-        if (removido) {
+        if (confirmacao != JOptionPane.YES_OPTION) return;
+        
+        ReceitaController ct = new ReceitaController();
+        boolean sucesso = ct.excluirReceitaPorNome(nomeExcluir);
+                
+        if (sucesso) {
             JOptionPane.showMessageDialog(this, "Receita excluída com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             carregarListaReceitas(); 
         } else {

@@ -5,7 +5,7 @@ public class Ingrediente{
     private double quantidade;
     private String unidMedida;
 
-    public Ingrediente(String nome, double quantidade, String unidMedida) {
+    public Ingrediente() {
         this.nome = nome;
         this.quantidade = quantidade;
         this.unidMedida = unidMedida;

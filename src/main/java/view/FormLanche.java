@@ -71,6 +71,7 @@ public class FormLanche extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setBackground(new java.awt.Color(204, 255, 0));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
@@ -132,6 +133,7 @@ public class FormLanche extends javax.swing.JFrame {
             }
         });
 
+        btSair.setBackground(new java.awt.Color(242, 242, 242));
         btSair.setText("Sair");
         btSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -324,13 +326,20 @@ public class FormLanche extends javax.swing.JFrame {
         lanche.setTipoLanche(txfieldTipoLanche.getText());
         lanche.setTemperatura(txfieldTemperatura.getText());
 
+        LancheController ct = new LancheController();
+        int id = ct.cadastrar(lanche);
+        
+        if (id <= 0){
+            JOptionPane.showMessageDialog(this, "Erro ao cadastrar lanche no Banco de Dados", "ERRO", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        lanche.setId(id);
+        
         FormIngrediente formIngrediente = FormIngrediente.getFormIngrediente();
         formIngrediente.setReceitaAtual(lanche);  
         FormIngrediente.getFormIngrediente().setVisible(true);
-        
-        LancheController ct = new LancheController();
-        ct.cadastrar(lanche);
-
+          
         JOptionPane.showMessageDialog(this, "Lanche cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         limpar();
         this.dispose();

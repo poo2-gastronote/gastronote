@@ -7,6 +7,7 @@ import controller.SobremesaController;
 import javax.swing.JOptionPane;
 
 public class FormSobremesa extends javax.swing.JFrame {
+    private Sobremesa sobremesa;
     private static FormSobremesa formSobremesa;
         
     private FormSobremesa() {
@@ -306,13 +307,20 @@ public class FormSobremesa extends javax.swing.JFrame {
         
         sobremesa.setCategoria(txfieldCategoria.getText());
 
-        FormIngrediente formIngrediente = FormIngrediente.getCadIngrediente();
-        formIngrediente.setReceitaAtual(sobremesa);  
-        FormIngrediente.getCadIngrediente().setVisible(true);
-          
         SobremesaController ct = new SobremesaController();
-        ct.cadastrar(sobremesa);
-
+        int id = ct.cadastrar(sobremesa);
+        
+        if (id <= 0){
+            JOptionPane.showMessageDialog(this, "Erro ao cadastrar sobremesa no Banco de Dados", "ERRO", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        sobremesa.setId(id);
+        
+        FormIngrediente formIngrediente = FormIngrediente.getFormIngrediente();
+        formIngrediente.setReceitaAtual(sobremesa);  
+        FormIngrediente.getFormIngrediente().setVisible(true);
+          
         JOptionPane.showMessageDialog(this, "Sobremesa cadastrada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         limpar();
         this.dispose();

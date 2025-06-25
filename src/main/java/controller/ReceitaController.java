@@ -66,20 +66,6 @@ public class ReceitaController {
         return receita;   
     }
     
-    public int buscarIdReceita(String nome){
-        String sql = "SELECT if FROM receita WHERE nome = ?";
-        try(PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, nome);
-            ResultSet rs = stmt.executeQuery();
-            if(rs.next()) {
-                return rs.getInt("id");
-            }
-        }catch(SQLException e){
-            System.out.println("Erro ao buscar ID da receita: " + e.getMessage());
-        }
-        return -1;
-    }
-    
     public boolean excluirReceitaPorNome(String nome) {
         String sql = "DELETE FROM receita WHERE nome = ?";
 
